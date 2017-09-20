@@ -72,10 +72,14 @@ If teamReturn <> 0 Then
 	// check for expdition return indicator
 	// if no indicator then refreshHomePage()
 	If searchPicWithNumTimes(pic_return_back, 10) <> True Then 
-		refreshHomePage
+		refreshHomePage 
+		// Delay for loading till see home page
+    	Delay 2000
 	End If
 	// else acceptReturnTeam()
-	acceptReturnTeam
+	acceptReturnTeam 
+	// Delay for loading till see home page
+    Delay 2000
 End If
 
 teamReturn = checkReturnTeam(pic_return_team_3_return,3)
@@ -85,10 +89,14 @@ If teamReturn <> 0 Then
 	// check for expdition return indicator
 	// if no indicator then refreshHomePage()
 	If searchPicWithNumTimes(pic_return_back, 10) <> True Then 
-		refreshHomePage
+		refreshHomePage 
+		// Delay for loading till see home page
+    	Delay 2000
 	End If
 	// else acceptReturnTeam()
-	acceptReturnTeam
+	acceptReturnTeam 
+	// Delay for loading till see home page
+    Delay 2000
 End If
 
 teamReturn = checkReturnTeam(pic_return_team_4_return,4)
@@ -98,10 +106,14 @@ If teamReturn <> 0 Then
 	// check for expdition return indicator
 	// if no indicator then refreshHomePage()
 	If searchPicWithNumTimes(pic_return_back, 10) <> True Then 
-		refreshHomePage
+		refreshHomePage 
+		// Delay for loading till see home page
+    	Delay 2000
 	End If
 	// else acceptReturnTeam()
-	acceptReturnTeam
+	acceptReturnTeam 
+	// Delay for loading till see home page
+    Delay 2000
 End If
 
 //--------------------------------------------------------
