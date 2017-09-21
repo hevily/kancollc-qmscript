@@ -55,6 +55,9 @@ Delay 1000 // delay for long process time
 // picture used
 pic_1 = "1.bmp" // att button
 
+pic_return_team_num = ".\return\team_" // use for string join and loop cases
+pic_return_team_return_filetype = "_return.bmp" // use for string join and loop cases
+
 pic_return_team_2_return = ".\return\team_2_return.bmp" // team 2 return
 pic_return_team_3_return = ".\return\team_3_return.bmp" // team 3 return
 pic_return_team_4_return = ".\return\team_4_return.bmp" // team 4 return
@@ -65,6 +68,31 @@ pic_return_next = ".\return\next.bmp" // next button
 
 //--------------------------------------------------------
 // main program
+
+For i=0 To 2
+	// get string file path with corrisponding iteration
+	joinStringFilePath = pic_return_team_num & CStr(i+2) & pic_return_team_return_filetype
+	TracePrint joinStringFilePath
+	
+	teamReturn = checkReturnTeam(joinStringFilePath,i+2)
+	If teamReturn <> 0 Then 
+		// team return
+		TracePrint teamReturn
+		// check for expdition return indicator
+		// if no indicator then refreshHomePage()
+		If searchPicWithNumTimes(pic_return_back, 10) <> True Then 
+			refreshHomePage 
+			// Delay for loading till see home page
+    		Delay 2000
+		End If
+		// else acceptReturnTeam()
+		acceptReturnTeam 
+		// Delay for loading till see home page
+    	Delay 2000
+	End If
+Next
+
+/*
 teamReturn = checkReturnTeam(pic_return_team_2_return,2)
 If teamReturn <> 0 Then 
 	// team 2 return
@@ -115,6 +143,7 @@ If teamReturn <> 0 Then
 	// Delay for loading till see home page
     Delay 2000
 End If
+*/
 
 //--------------------------------------------------------
 
@@ -206,7 +235,6 @@ Function checkReturnTeam(filePath, teamNum)
     End If
     //--------------------------------------------------------
 End Function
-
 
 Function findPicWithRandomClick(filePath)
 	// note: random click range box is the picture size

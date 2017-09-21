@@ -55,6 +55,9 @@ Delay 1000 // delay for long process time
 // picture used
 pic_3 = "3.bmp" // supply button
 
+pic_supply_team_num = ".\supply\team_" // use for string join and loop cases
+pic_supply_team_refill_filetype = "_refill.bmp" // use for string join and loop cases
+
 pic_supply_team_1_refill = ".\supply\team_1_refill.bmp" // team 1 refill
 pic_supply_team_2_refill = ".\supply\team_2_refill.bmp" // team 2 refill
 pic_supply_team_3_refill = ".\supply\team_3_refill.bmp" // team 3 refill
@@ -69,37 +72,29 @@ pic_supply_fill = ".\supply\fill.bmp" // refill button
 
 //--------------------------------------------------------
 // main program
-refillTeam1 = checkReturnTeam(pic_supply_team_1_refill, 1)
-TracePrint refillTeam1
-If refillTeam1 <> 0 Then 
-	refillTeam (refillTeam1)
-	// Delay 1.5 sec to load home page
-	Delay 2000
+// Check teams that need refill
+refillTeamArray = Array(0, 0, 0, 0)
+
+haveTeamToRefill = False
+For i=0 To UBound(refillTeamArray)
+	// get string file path with corrisponding iteration
+	joinStringFilePath = pic_supply_team_num & CStr(i+1) & pic_supply_team_refill_filetype
+	TracePrint joinStringFilePath
+	
+	// check the team that needs to refill
+	refillTeamArray(i) = checkReturnTeam(joinStringFilePath, i+1)
+	If refillTeamArray(i) > 0 Then
+		haveTeamToRefill = True
+	End If
+Next
+
+// look for any team that needs to refill
+If haveTeamToRefill Then
+	refillTeam(refillTeamArray)
 End If
 
-refillTeam2 = checkReturnTeam(pic_supply_team_2_refill, 2)
-TracePrint refillTeam2
-If refillTeam2 <> 0 Then 
-	refillTeam (refillTeam2)
-	// Delay 1.5 sec to load home page
-	Delay 2000
-End If
-
-refillTeam3 = checkReturnTeam(pic_supply_team_3_refill, 3)
-TracePrint refillTeam3
-If refillTeam3 <> 0 Then 
-	refillTeam (refillTeam3)
-	// Delay 1.5 sec to load home page
-	Delay 2000
-End If
-
-refillTeam4 = checkReturnTeam(pic_supply_team_4_refill, 4)
-TracePrint refillTeam4
-If refillTeam4 <> 0 Then 
-	refillTeam (refillTeam4)
-	// Delay 1.5 sec to load home page
-	Delay 2000
-End If
+//Delay 2 sec for main page to load
+Delay 2000
 
 //--------------------------------------------------------
 
@@ -152,7 +147,7 @@ Function acceptReturnTeam()
 	//--------------------------------------------------------
 End Function
 
-Function refillTeam(teamNum)
+Function refillTeam(teamToRefillArray)
 	//--------------------------------------------------------
 	// check which team need to refill then refill them
 	// click supply button
@@ -161,28 +156,43 @@ Function refillTeam(teamNum)
 	//Delay 1 sec to load supply page
 	Delay 1000
 	
-	// click team number 2/3/4 (team 1 ignore this step)
-    Select Case teamNum
-    Case 2
-        findPicWithRandomClick (pic_supply_num_2)
-        // Delay 1 sec to load team
-    	Delay 1000
-    Case 3
-    	findPicWithRandomClick (pic_supply_num_3)
-    	// Delay 1 sec to load team
-    	Delay 1000
-    Case 4
-    	findPicWithRandomClick (pic_supply_num_4)
-    	// Delay 1 sec to load team
-    	Delay 1000
-    Case Else
-    End Select
-    
-	// click fillup
-	findPicWithRandomClick (pic_supply_fill)
-	
-	// Delay 2 sec to refill
-	Delay 2000
+	// loop through the array cases
+	For i=0 To uBound(teamToRefillArray)
+		TracePrint teamToRefillArray(i)
+		// click team number 2/3/4 (team 1 ignore this step)
+    	Select Case teamToRefillArray(i)
+    	Case 1
+    		// click fillup
+			findPicWithRandomClick (pic_supply_fill)
+			// Delay 2 sec to refill
+			Delay 2000
+    	Case 2
+        	findPicWithRandomClick (pic_supply_num_2)
+        	// Delay 1 sec to load team
+    		Delay 1000
+			// click fillup
+			findPicWithRandomClick (pic_supply_fill)
+			// Delay 2 sec to refill
+			Delay 2000
+    	Case 3
+    		findPicWithRandomClick (pic_supply_num_3)
+    		// Delay 1 sec to load team
+    		Delay 1000
+    		// click fillup
+			findPicWithRandomClick (pic_supply_fill)
+			// Delay 2 sec to refill
+			Delay 2000
+    	Case 4
+    		findPicWithRandomClick (pic_supply_num_4)
+    		// Delay 1 sec to load team
+    		Delay 1000
+    		// click fillup
+			findPicWithRandomClick (pic_supply_fill)
+			// Delay 2 sec to refill
+			Delay 2000
+    	Case Else
+    	End Select
+	Next
 	
 	// click home page
 	// Click top left corner back to main page
@@ -232,7 +242,6 @@ Function checkReturnTeam(filePath, teamNum)
     End If
     //--------------------------------------------------------
 End Function
-
 
 Function findPicWithRandomClick(filePath)
 	// note: random click range box is the picture size

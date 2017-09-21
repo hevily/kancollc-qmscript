@@ -27,6 +27,8 @@ Dim Input
 Input = InputBox("輸入名字")
 MsgBox ("輸入: " & Input)
 
+Input = Right("00000",5)
+MsgBox ("輸入: " & Input)
 
 TracePrint TypeName(Input)
 
@@ -38,3 +40,39 @@ str1 = CStr(number)
 
 TracePrint TypeName(str1)
 
+TracePrint 7/8
+TracePrint Ceil(7/8)
+TracePrint Floor(7/8)
+
+team2ExpNum = InputBox("Enter expedition number for team 2 (1 to 40):", "Team 2")
+team3ExpNum = InputBox("Enter expedition number for team 3 (1 to 40):", "Team 3..")
+team4ExpNum = InputBox("Enter expedition number for team 4 (1 to 40):", "Team 4....")
+TracePrint team2ExpNum
+TracePrint team3ExpNum
+TracePrint team4ExpNum
+
+team2ExpPage = Ceil(team2ExpNum/8)
+team3ExpPage = Ceil(team3ExpNum/8)
+team4ExpPage = Ceil(team4ExpNum/8)
+TracePrint team2ExpPage
+TracePrint team3ExpPage
+TracePrint team4ExpPage
+
+Function Ceil(Number)
+	//--------------------------------------------------------
+	// round up number
+    Ceil = Int(Number)
+	// if ceil is not equal to the number (means have decimal places)
+    if Ceil <> Number then
+        // Add one to Ceil
+        Ceil = Ceil + 1
+    end if
+	//--------------------------------------------------------
+end function
+
+function Floor(Number)
+	//--------------------------------------------------------
+	// round down
+    Floor = Int(Number)
+	//--------------------------------------------------------
+end function
