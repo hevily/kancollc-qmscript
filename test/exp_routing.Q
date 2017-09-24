@@ -54,7 +54,33 @@ Delay 1000 // delay for long process time
 //--------------------------------------------------------
 // picture used
 pic_1 = "1.bmp" // att button
+pic_2 = "2.bmp" // exp button
 pic_3 = "3.bmp" // supply button
+
+pic_exp_num = ".\expedition\" // use for string join and loop cases
+pic_exp_filetype = ".bmp" // use for string join and loop cases
+
+pic_exp_5 = ".\expedition\5.bmp" // exp 5 button
+
+pic_exp_team_num = ".\expedition\exp_team_" // use for string join and loop cases
+pic_exp_team_filepath = ".bmp" // use for string join and loop cases
+pic_exp_team_idle_filetype = "_idle.bmp" // use for string join and loop cases
+
+pic_exp_team_2 = ".\expedition\exp_team_2.bmp" // team 2 button
+pic_exp_team_3 = ".\expedition\exp_team_3.bmp" // team 3 button
+pic_exp_team_4 = ".\expedition\exp_team_4.bmp" // team 4 button
+pic_exp_team_2_idle = ".\expedition\exp_team_2_idle.bmp" // team 2 idle UI
+pic_exp_team_3_idle = ".\expedition\exp_team_3_idle.bmp" // team 3 idle UI
+pic_exp_team_4_idle = ".\expedition\exp_team_4_idle.bmp" // team 4 idle UI
+
+pic_exp_det = ".\expedition\determine.bmp" // determine button
+pic_exp_commit = ".\expedition\commit.bmp" // commit button
+pic_exp_commit_2 = ".\expedition\commit_2.bmp" // commit 2 button
+pic_exp_menu_1 = ".\expedition\1_8.bmp"
+pic_exp_menu_2 = ".\expedition\9_16.bmp"
+pic_exp_menu_3 = ".\expedition\17_24.bmp"
+pic_exp_menu_4 = ".\expedition\25_32.bmp"
+pic_exp_menu_5 = ".\expedition\33_40.bmp"
 
 pic_return_team_num = ".\return\team_" // use for string join and loop cases
 pic_return_team_return_filetype = "_return.bmp" // use for string join and loop cases
@@ -83,6 +109,12 @@ pic_supply_fill = ".\supply\fill.bmp" // refill button
 
 //--------------------------------------------------------
 // main program
+// get user input for expedition number
+teamExpNum = Array(0,0,0)
+
+// get user input
+getExpMissionUserInput
+
 // accept team return from expedition
 expReturnClick 
 
@@ -92,7 +124,11 @@ teamRefill
 //Delay 2 sec for main page to load
 Delay 2000
 
-// send teams back to expedition
+// commit exp
+readyExpNumber
+
+//Delay 2 sec for main page to load
+Delay 2000
 
 //--------------------------------------------------------
 
@@ -142,6 +178,20 @@ Function acceptReturnTeam()
     // range box size (785,466) where 22,60 as window base 
     // lefttop corner (7,35) rightbottom corner (792,501)
     ramdomClickWithCertainRangeBox 785,466
+	//--------------------------------------------------------
+End Function
+
+Function getExpMissionUserInput()
+	//--------------------------------------------------------
+	// make sure teamExpNum as declared global variable in this script
+	For i=0 To UBound(teamExpNum)
+		userInput = InputBox("Enter expedition number for team " & CStr(i+2) & " (1 to 40, 0 for no expedition):", "Team " & CStr(i+2) & String((i*5),"."))
+		// expedition number
+		teamExpNum(i) = userInput
+		TracePrint teamExpNum(i)
+		// expedition page number
+		TracePrint getExpPageNum(teamExpNum(i))
+	Next
 	//--------------------------------------------------------
 End Function
 
@@ -254,6 +304,144 @@ Function refillTeam(teamToRefillArray)
     // lefttop corner (7,35) rightbottom corner (81,109)
     ramdomClickWithCertainRangeBox 74, 74
     //--------------------------------------------------------
+End Function
+
+Function readyExpNumber()
+	//--------------------------------------------------------
+	// Check teams that need to go expedition
+	expTeamArray = Array(0, 0, 0)
+	
+	haveTeamToExp = False
+	For i=0 To UBound(expTeamArray)
+		// get string file path with corrisponding iteration
+		joinStringFilePath = pic_exp_team_num & CStr(i+2) & pic_exp_team_idle_filetype
+		TracePrint joinStringFilePath
+		
+		// check the team that needs to refill then return the mission number
+		expTeamArray(i) = checkReturnTeam(joinStringFilePath, teamExpNum(i))
+		If expTeamArray(i) > 0 Then
+			haveTeamToExp = True
+		End If
+	Next
+	
+	// look for any team that needs to go expedition
+	If haveTeamToExp Then
+		commitExp(expTeamArray)
+	End If
+	//--------------------------------------------------------
+End Function
+
+Function commitExp(teamToExp)
+	//--------------------------------------------------------
+	// Send at least 1 idle team that have expedition mission
+	// click attack button
+	findPicWithRandomClick (pic_1)
+	// Delay 1.5 sec for loading till see expedition button
+	Delay 1500
+	
+	// click expedition button
+	findPicWithRandomClick (pic_2)
+	// Delay 2 sec for loading till see exp main page
+	Delay 2000
+	
+    // loop though all the team
+    For i = 0 To UBound(teamToExp)
+        // only idle team and assign for exp mission is going
+        TracePrint "team " & (i+2) & " is going to exp mission " & CStr(teamToExp(i))
+        // get file path for exp mission
+        expNumFilePath = pic_exp_num & CStr(teamExpNum(i)) & pic_exp_filetype
+        // click exp mission number
+        Select Case getExpPageNum(teamToExp(i))
+        Case 1
+            // click exp missions in 1st page
+            clickExpMenuPageAndMissionNum pic_exp_menu_1,expNumFilePath
+            // Delay for loading till see determine button
+            Delay 1000 // Delay at least 1 sec
+        Case 2
+            // click exp missions in 2nd page
+            clickExpMenuPageAndMissionNum pic_exp_menu_2,expNumFilePath
+            // Delay for loading till see determine button
+            Delay 1000 // Delay at least 1 sec
+        Case 3
+            // click exp missions in 3rd page
+            clickExpMenuPageAndMissionNum pic_exp_menu_3,expNumFilePath
+            // Delay for loading till see determine button
+            Delay 1000 // Delay at least 1 sec
+        Case 4
+            // click exp missions in 4th page
+            clickExpMenuPageAndMissionNum pic_exp_menu_4,expNumFilePath
+            // Delay for loading till see determine button
+            Delay 1000 // Delay at least 1 sec
+        Case 5
+            // click exp missions in 5th page
+            clickExpMenuPageAndMissionNum pic_exp_menu_5,expNumFilePath
+            // Delay for loading till see determine button
+            Delay 1000 // Delay at least 1 sec
+        Case Else
+            MessageBox "Team " & CStr(i+2) & " not going to exp"
+            Goto endForLoop
+        End Select
+        
+        // click determine button
+        findPicWithRandomClick (pic_exp_det)
+        // Delay 2 sec for team selection page to load
+        Delay 2000
+        
+        // click corrisponding team number (team 2 dont need to click)
+        // get file path to choose which team to commit
+        expTeamNumFilePath = pic_exp_team_num & CStr(i+2) & pic_exp_team_filepath
+        If i > 0 Then 
+            // click team number
+            findPicWithRandomClick (expTeamNumFilePath)
+            // wait to load team
+            Delay 1000
+        End If
+        
+        // click start expedition
+        // look which commit button
+        If searchPicWithNumTimes(pic_exp_commit, 5) = 0 Then
+        	// type 1 commit button
+        	findPicWithRandomClick (pic_exp_commit_2)
+        Else 
+        	// type 2 commit button
+        	findPicWithRandomClick(pic_exp_commit)
+        End If
+        // wait to load back to expedition page
+        Delay 7000
+        
+    	Rem endForLoop
+    Next
+	
+	// click back to main page if no other team is idle
+	// Click top left corner back to main page
+	// (29,95 to 103,95 to 29,169 to 103,169)
+	// range box size (74,74) where 22,60 as window base
+	// lefttop corner (7,35) rightbottom corner (81,109)
+	ramdomClickWithCertainRangeBox 74,74
+	//--------------------------------------------------------
+End Function
+
+Function clickExpMenuPageAndMissionNum(menuPageFilePath, missionNumFilePath)
+	//--------------------------------------------------------
+	// click the mission number with menu page number
+	If StrComp(menuPageFilePath,pic_exp_menu_1) = 0 Then
+		// check if is at other page
+		If searchPicWithNumTimes(menuPageFilePath,10) Then
+			findPicWithRandomClick (menuPageFilePath)
+			// Delay for loading till see menu page 3
+			Delay 1000 // Delay at least 1 sec
+		End If
+		// click expedition number for team
+		findPicWithRandomClick (missionNumFilePath)
+	Else
+		// click exp page
+		findPicWithRandomClick (menuPageFilePath)
+		// Delay for loading till see menu page 3
+		Delay 1000 // Delay at least 1 sec
+		// click expedition number for team
+		findPicWithRandomClick (missionNumFilePath)
+	End If
+	//--------------------------------------------------------
 End Function
 
 Function searchPicWithNumTimes(filePath, times)
@@ -372,6 +560,13 @@ Function ramdomClickWithCertainRangeBox(width, height)
 	// Random Delay
 	Delay 100*Int((25*Rnd)+1)
 	Call Plugin.Bkgnd.LeftClick(HwndEx, 7+range_x, 35+range_y)
+	//--------------------------------------------------------
+End Function
+
+Function getExpPageNum(missionNum)
+	//--------------------------------------------------------
+	// get expedition page number
+	getExpPageNum = Ceil(missionNum/8)
 	//--------------------------------------------------------
 End Function
 

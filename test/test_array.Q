@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=1c76c9e3-5559-4cc3-a50e-1e1e51a57ef2
 Description=test_array
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0

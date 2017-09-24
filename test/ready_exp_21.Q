@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=b0c025da-5d43-418c-8cb7-3cd9fbab6fd7
 Description=ready_exp_21
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -70,7 +70,7 @@ Delay 1700 // Delay at least 1.7 sec
 
 findPicWithRandomClick (pic_exp_menu_3)
 
-// Delay for loading till see menu page 5
+// Delay for loading till see menu page 3
 Delay 500 // Delay at least 0.5 sec
 
 findPicWithRandomClick (pic_exp_21)

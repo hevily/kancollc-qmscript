@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=e96d6f91-95c9-4d5d-b067-3150a17206fe
 Description=ready_exp_5
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
