@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=45221a81-c98b-497c-a389-eeef2b14f2a3
 Description=exp_user_input
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -163,7 +163,7 @@ Function expReturnClick()
 			TracePrint teamReturn
 			// check for expdition return indicator
 			// if no indicator then refreshHomePage()
-			If searchPicWithNumTimes(pic_return_back, 10) <> True Then 
+			If searchPicWithNumTimes(pic_return_back, 5) <> True Then 
 				refreshHomePage 
 				// Delay for loading till see home page
     			Delay 2000

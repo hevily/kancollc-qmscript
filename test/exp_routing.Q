@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=a38b67eb-5124-42d0-a09e-0616aa2a5af2
 Description=exp_routing
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -210,7 +210,7 @@ Function expReturnClick()
 			TracePrint teamReturn
 			// check for expdition return indicator
 			// if no indicator then refreshHomePage()
-			If searchPicWithNumTimes(pic_return_back, 10) <> True Then 
+			If searchPicWithNumTimes(pic_return_back, 5) <> True Then 
 				refreshHomePage 
 				// Delay for loading till see home page
     			Delay 2000
@@ -424,23 +424,15 @@ End Function
 Function clickExpMenuPageAndMissionNum(menuPageFilePath, missionNumFilePath)
 	//--------------------------------------------------------
 	// click the mission number with menu page number
-	If StrComp(menuPageFilePath,pic_exp_menu_1) = 0 Then
-		// check if is at other page
-		If searchPicWithNumTimes(menuPageFilePath,10) Then
-			findPicWithRandomClick (menuPageFilePath)
-			// Delay for loading till see menu page 3
-			Delay 1000 // Delay at least 1 sec
-		End If
-		// click expedition number for team
-		findPicWithRandomClick (missionNumFilePath)
-	Else
-		// click exp page
+	If searchPicWithNumTimes(menuPageFilePath,5) Then
 		findPicWithRandomClick (menuPageFilePath)
 		// Delay for loading till see menu page 3
 		Delay 1000 // Delay at least 1 sec
-		// click expedition number for team
-		findPicWithRandomClick (missionNumFilePath)
 	End If
+	// Delay for loading till see menu page 3
+	Delay 1000 // Delay at least 1 sec
+	// click expedition number for team
+	findPicWithRandomClick (missionNumFilePath)
 	//--------------------------------------------------------
 End Function
 

@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=3a158795-3493-4437-ac14-c339e7b01e54
 Description=ready_exp_number
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -198,7 +198,7 @@ Function expReturnClick()
 			TracePrint teamReturn
 			// check for expdition return indicator
 			// if no indicator then refreshHomePage()
-			If searchPicWithNumTimes(pic_return_back, 10) <> True Then 
+			If searchPicWithNumTimes(pic_return_back, 5) <> True Then 
 				refreshHomePage 
 				// Delay for loading till see home page
     			Delay 2000
@@ -366,7 +366,7 @@ Function commitExp(teamToExp)
             // Delay for loading till see determine button
             Delay 1000 // Delay at least 1 sec
         Case Else
-            MessageBox "Team " & CStr(i+2) & " not going to exp"
+            TracePrint "Team " & CStr(i+2) & " not going to exp"
             Goto endForLoop
         End Select
         
@@ -412,23 +412,15 @@ End Function
 Function clickExpMenuPageAndMissionNum(menuPageFilePath, missionNumFilePath)
 	//--------------------------------------------------------
 	// click the mission number with menu page number
-	If StrComp(menuPageFilePath,pic_exp_menu_1) = 0 Then
-		// check if is at other page
-		If searchPicWithNumTimes(menuPageFilePath,10) Then
-			findPicWithRandomClick (menuPageFilePath)
-			// Delay for loading till see menu page 3
-			Delay 1000 // Delay at least 1 sec
-		End If
-		// click expedition number for team
-		findPicWithRandomClick (missionNumFilePath)
-	Else
-		// click exp page
+	If searchPicWithNumTimes(menuPageFilePath,5) Then
 		findPicWithRandomClick (menuPageFilePath)
 		// Delay for loading till see menu page 3
 		Delay 1000 // Delay at least 1 sec
-		// click expedition number for team
-		findPicWithRandomClick (missionNumFilePath)
 	End If
+	// Delay for loading till see menu page 3
+	Delay 1000 // Delay at least 1 sec
+	// click expedition number for team
+	findPicWithRandomClick (missionNumFilePath)
 	//--------------------------------------------------------
 End Function
 
@@ -442,11 +434,11 @@ Function searchPicWithNumTimes(filePath, times)
     	//TracePrint intX
     	//TracePrint intY
     	If intX >= 0 and intY >= 0 Then
-        	MessageBox "找到" & filePath & "在介面裡"
+        	TracePrint "找到" & filePath & "在介面裡"
         	searchPicWithNumTimes = True // found
         	Exit For
     	Else
-        	MessageBox "沒找到" & filePath & "在介面裡"
+        	TracePrint "沒找到" & filePath & "在介面裡"
         	searchPicWithNumTimes = False // not found
         	// Delay 1 sec for loading
         	Delay 1000
@@ -463,10 +455,10 @@ Function checkReturnTeam(filePath, teamNum)
     //TracePrint intX
     //TracePrint intY
     If intX >= 0 and intY >= 0 Then
-        MessageBox "找到" & filePath & "在介面裡"
+        TracePrint "找到" & filePath & "在介面裡"
         checkReturnTeam = teamNum
     Else
-        MessageBox "沒找到" & filePath & "在介面裡"
+        TracePrint "沒找到" & filePath & "在介面裡"
         checkReturnTeam = 0
     End If
     //--------------------------------------------------------
@@ -511,7 +503,7 @@ Function findPicWithRandomClick(filePath)
         //dm.MoveTo intX,intY
         //dm.LeftClick
     Else 
-        MessageBox "沒找到" & filePath & "在介面裡"
+        TracePrint "沒找到" & filePath & "在介面裡"
         // not found then Delay 1 sec and check again
         Delay 1000
 		Goto recheck
@@ -529,9 +521,9 @@ Function infinteLoopTillPicFoundWithDelay(filePath)
     //TracePrint intX
     //TracePrint intY
     If intX >= 0 and intY >= 0 Then
-        MessageBox "找到" & filePath & "在介面裡"
+        TracePrint "找到" & filePath & "在介面裡"
     Else
-        MessageBox "沒找到" & filePath & "在介面裡"
+        TracePrint "沒找到" & filePath & "在介面裡"
         // Delay 2 more sec for loading
         Delay 2000
         Goto recheck_next_btn

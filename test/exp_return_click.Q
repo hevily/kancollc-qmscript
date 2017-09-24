@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=d5a0da17-6542-4c7a-8d19-9be3e0be316b
 Description=exp_return_click
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0

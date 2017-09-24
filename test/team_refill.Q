@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=6fb404fe-79b1-477d-a083-86cdf283c468
 Description=team_refill
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
